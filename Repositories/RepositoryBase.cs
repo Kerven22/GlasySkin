@@ -20,7 +20,6 @@ namespace Repositories
             !trackChanges ? _repositoryContext.Set<T>().Where(exception).AsNoTracking() :
             _repositoryContext.Set<T>().Where(exception);
 
-
         public async Task CreateAsync(T entity) => 
             await _repositoryContext.Set<T>().AddAsync(entity);
 
