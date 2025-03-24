@@ -1,7 +1,8 @@
 var builder = WebApplication.CreateBuilder(args);
 
 
-builder.Services.AddControllers().AddApplicationPart(typeof(Presentation.AssemblyRefference).Assembly);
+builder.Services.AddControllers()
+    .AddApplicationPart(typeof(Presentation.AssemblyRefference).Assembly);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
