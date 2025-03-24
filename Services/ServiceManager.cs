@@ -1,23 +1,38 @@
-﻿using Service.Contract;
+﻿using Repository.Contract.Abstractions;
+using Service.Contract;
 
 namespace Services
 {
-    internal sealed class ServiceManager : IServiceManager
+    public sealed class ServiceManager : IServiceManager
     {
-        private readonly Lazy<IUserServie> _userServie;
+        private readonly Lazy<IUserServie> _userService;
 
         private readonly Lazy<ITypeService> _typeService;
 
+        private readonly Lazy<IProductService> _productService;
+
+        private readonly Lazy<ICommentService> _commentService;
+
+        private readonly Lazy<IBasketService> _basketService;
+
+        public ServiceManager(IRepositoryManager repositoryManager)
+        {
+            _userService = new Lazy<IUserServie>(() => new UserService(repositoryManager));
+            _typeService = new Lazy<ITypeService>(() => new TypeService(repositoryManager));
+            _productService = new Lazy<IProductService>(() => new ProductService(repositoryManager));
+            _commentService = new Lazy<ICommentService>(() => new CommentService(repositoryManager));
+            _basketService = new Lazy<IBasketService>(() => new BasketService(repositoryManager)); 
+        }
 
 
-        public IUserServie UserServiec => throw new NotImplementedException();
+        public IUserServie UserServiec => _userService.Value;
 
-        public ITypeService TypeService => throw new NotImplementedException();
+        public ITypeService TypeService => _typeService.Value;
 
-        public IProductService ProductService => throw new NotImplementedException();
+        public IProductService ProductService => _productService.Value;
 
-        public ICommentService CommentService => throw new NotImplementedException();
+        public ICommentService CommentService => _commentService.Value;
 
-        public IBasketService BacketService => throw new NotImplementedException();
+        public IBasketService BacketService => _basketService.Value; 
     }
 }
