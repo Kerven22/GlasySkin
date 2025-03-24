@@ -40,9 +40,7 @@ namespace Repositories
 
         public IBasketRepository Basket => _basketRepository.Value; 
 
-        public async Task SaveAsync()
-        {
-            await _repositoryContext.SaveChangesAsync(); 
-        }
+
+        public async Task SaveAsync()=> await _repositoryContext.SaveChangesAsync(); 
     }
 }
