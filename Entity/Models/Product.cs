@@ -1,9 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entity.Models
 {
     public class Product
     {
+        [Key]
+        [Column("ProductId")]
         public Guid ProductId { get; set; }
 
         public Guid TypeId { get; set; }

@@ -1,9 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entity.Models
 {
     public class User
     {
+        [Key]
+        [Column("UserId")]
         public Guid UserId { get; set; }
 
         public string Login { get; set; }
