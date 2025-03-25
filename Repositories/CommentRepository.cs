@@ -4,7 +4,11 @@ using Repository.Contract;
 
 namespace Repositories
 {
-    public class CommentRepository(RepositoryContext repositoryContext) : RepositoryBase<Comment>, ICommentRepository
+    public class CommentRepository : RepositoryBase<Comment>, ICommentRepository
     {
+        public CommentRepository(RepositoryContext repositoryContext) : base(repositoryContext)
+        {
+            
+        }
     }
 }

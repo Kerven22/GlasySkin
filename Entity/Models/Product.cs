@@ -22,7 +22,7 @@ namespace Entity.Models
         public ICollection<Basket>? Baskets { get; set; }
 
         [InverseProperty(nameof(Comment.Product))]
-        public ICollection<Comment> Comments { get; set; }
+        public ICollection<Comment>? Comments { get; set; }
 
         [ForeignKey(nameof(TypeId))]
         public Type Type { get; set; }

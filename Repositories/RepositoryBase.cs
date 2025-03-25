@@ -5,10 +5,11 @@ using System.Linq.Expressions;
 
 namespace Repositories
 {
-    public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
+    public abstract class RepositoryBase<T>: IRepositoryBase<T> where T : class
     {
         protected RepositoryContext _repositoryContext;
 
+        public RepositoryBase(RepositoryContext repositoryContext) => _repositoryContext = repositoryContext; 
 
         public IQueryable<T> GetAll(bool trackChanges) =>
             !trackChanges ? 

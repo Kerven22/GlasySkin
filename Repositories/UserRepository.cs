@@ -4,7 +4,11 @@ using Repository.Contract;
 
 namespace Repositories
 {
-    public class UserRepository(RepositoryContext repositoryContext) : RepositoryBase<User>, IUserRepository
+    public class UserRepository : RepositoryBase<User>, IUserRepository
     {
+        public UserRepository(RepositoryContext repositoryContext):base(repositoryContext)
+        {
+            
+        }
     }
 }

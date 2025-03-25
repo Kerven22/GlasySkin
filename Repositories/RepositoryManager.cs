@@ -7,6 +7,7 @@ namespace Repositories
     public sealed class RepositoryManager : IRepositoryManager
     {
         private readonly RepositoryContext _repositoryContext;
+
         private readonly Lazy<ITypeRepository> _typeRepository;
         private readonly Lazy<IProductRepository> _productRepository;
         private readonly Lazy<ICommentRepository> _commentRepository;
