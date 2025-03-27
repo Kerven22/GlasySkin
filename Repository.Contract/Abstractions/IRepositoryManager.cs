@@ -3,7 +3,7 @@
     public interface IRepositoryManager
     {
         ITypeRepository Type { get; }
-        IProductRepository Repository { get;  }
+        IProductRepository Product { get;  }
         ICommentRepository Comment { get; }
         IUserRepository User { get; }
         IBasketRepository Basket { get; }

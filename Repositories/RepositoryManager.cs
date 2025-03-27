@@ -33,7 +33,7 @@ namespace Repositories
 
         public ITypeRepository Type => _typeRepository.Value;
 
-        public IProductRepository Repository => _productRepository.Value;
+        public IProductRepository Product => _productRepository.Value;
 
         public ICommentRepository Comment => _commentRepository.Value;
 
