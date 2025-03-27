@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Service.Contract;
+using Shared.ResponsiesDto;
 
 namespace Presentation.Controllers
 {
@@ -8,6 +9,7 @@ namespace Presentation.Controllers
     public class TypesController(IServiceManager _serviceManager):ControllerBase
     {
         [HttpGet]
+        [ProducesResponseType(200, Type = typeof(TypeResponseDto[]))]
         public async Task<IActionResult> GetTypes()
         {
             var types = await _serviceManager.TypeService.GetAllProductTypes(trackChanges: false);
