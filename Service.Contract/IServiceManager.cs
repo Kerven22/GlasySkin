@@ -2,7 +2,7 @@
 {
     public interface IServiceManager
     {
-        IUserServie UserServiec { get; }
+        IUserService UserServiec { get; }
         ITypeService TypeService { get; }
         IProductService ProductService { get; }
         ICommentService CommentService { get; }

@@ -1,11 +1,12 @@
 ﻿using Repository.Contract.Abstractions;
 using Service.Contract;
+using Services.AuthenticationService;
 
 namespace Services
 {
     public sealed class ServiceManager : IServiceManager
     {
-        private readonly Lazy<IUserServie> _userService;
+        private readonly Lazy<IUserService> _userService;
 
         private readonly Lazy<ITypeService> _typeService;
 
@@ -15,17 +16,20 @@ namespace Services
 
         private readonly Lazy<IBasketService> _basketService;
 
-        public ServiceManager(IRepositoryManager repositoryManager)
+        private readonly IJwtProvider _jwtProvider; 
+
+        public ServiceManager(IRepositoryManager repositoryManager, IJwtProvider jwtProvider)
         {
-            _userService = new Lazy<IUserServie>(() => new UserService(repositoryManager));
+            _jwtProvider = jwtProvider; 
+            _userService = new Lazy<IUserService>(() => new UserService.UserService(repositoryManager, _jwtProvider));
             _typeService = new Lazy<ITypeService>(() => new TypeService(repositoryManager));
-            _productService = new Lazy<IProductService>(() => new ProductService(repositoryManager));
+            _productService = new Lazy<IProductService>(() => new ProductService.ProductService(repositoryManager));
             _commentService = new Lazy<ICommentService>(() => new CommentService(repositoryManager));
-            _basketService = new Lazy<IBasketService>(() => new BasketService(repositoryManager)); 
+            _basketService = new Lazy<IBasketService>(() => new BasketService(repositoryManager));
         }
 
 
-        public IUserServie UserServiec => _userService.Value;
+        public IUserService UserServiec => _userService.Value;
 
         public ITypeService TypeService => _typeService.Value;
 

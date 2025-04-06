@@ -2,7 +2,7 @@ using FluentAssertions;
 using Moq;
 using Moq.Language.Flow;
 using Repository.Contract.Abstractions;
-using Services;
+using Services.ProductService;
 using Shared.CreateDtos;
 using Shared.Exceptions;
 
