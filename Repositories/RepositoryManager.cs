@@ -8,7 +8,7 @@ namespace Repositories
     {
         private readonly RepositoryContext _repositoryContext;
 
-        private readonly Lazy<ITypeRepository> _typeRepository;
+        private readonly Lazy<ICategoryRepository> _categoryRepository;
         private readonly Lazy<IProductRepository> _productRepository;
         private readonly Lazy<ICommentRepository> _commentRepository;
         private readonly Lazy<IUserRepository> _userRepository;
@@ -19,7 +19,7 @@ namespace Repositories
         {
             _repositoryContext = repositoryContext;
 
-            _typeRepository = new Lazy<ITypeRepository>(() => new TypeRepository(_repositoryContext));
+            _categoryRepository = new Lazy<ICategoryRepository>(() => new CategoryRepository(_repositoryContext));
 
             _productRepository = new Lazy<IProductRepository>(() => new ProductRepository(_repositoryContext));
 
@@ -31,7 +31,7 @@ namespace Repositories
         }
 
 
-        public ITypeRepository Type => _typeRepository.Value;
+        public ICategoryRepository Category => _categoryRepository.Value;
 
         public IProductRepository Product => _productRepository.Value;
 
@@ -39,7 +39,7 @@ namespace Repositories
 
         public IUserRepository User => _userRepository.Value;
 
-        public IBasketRepository Basket => _basketRepository.Value; 
+        public IBasketRepository Basket => _basketRepository.Value;
 
 
         public async Task SaveAsync()=> await _repositoryContext.SaveChangesAsync(); 

@@ -11,21 +11,23 @@ namespace Presentation.Controllers
     [Route("api/users")]
     public class UserController(IServiceManager _serviceManager):ControllerBase
     {
-        [HttpPost]
+        [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisgerUserDto regisgerUserDto)
         {
             await _serviceManager.UserServiec.Register(regisgerUserDto);   
             return Ok();
         }
-        [HttpGet]
-        public async Task<IActionResult> Login([FromQuery] LogInDto logInDto)
+
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LogInDto logInDto)
         { 
             var token = await _serviceManager.UserServiec.Login(logInDto);
 
             var httpContext = HttpContext.Response.Cookies;
             httpContext.Append("myCookies", token); 
 
-            return Ok(); 
+            return Ok(token); 
         }
 
     }

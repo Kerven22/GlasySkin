@@ -50,6 +50,7 @@ namespace GlasySkin.Extentions
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(AuthOption.SecretKey))
                 };
+
                 options.Events = new JwtBearerEvents
                 {
                     OnMessageReceived = context =>

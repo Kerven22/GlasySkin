@@ -3,7 +3,7 @@
     public interface IServiceManager
     {
         IUserService UserServiec { get; }
-        ITypeService TypeService { get; }
+        ICategoryService CategoryService { get; }
         IProductService ProductService { get; }
         ICommentService CommentService { get; }
         IBasketService BacketService { get; }

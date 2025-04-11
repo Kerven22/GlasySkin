@@ -1,15 +1,26 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Service.Contract;
+using Shared.CreateDtos;
 
 namespace Presentation.Controllers
 {
     [ApiController]
-    [Route("/")]
-    public class ProductController : ControllerBase
+    [Route("/categories")]
+    public class ProductController(IServiceManager _serviceManager) : ControllerBase
     {
-        [HttpGet]
-        public IActionResult GetProducts()
+        [HttpGet("products")]
+        public async Task<IActionResult> GetProducts()
         {
-            return Ok(); 
+            var products = await _serviceManager.ProductService.GetAllProductAsync();
+            return Ok(products);
+        }
+
+        [HttpPost("products/create")]
+        public async Task<IActionResult> CreateProduct([FromBody] ProductRequestDto responseDto)
+        {
+            var product = await _serviceManager.ProductService.Create(responseDto, trackChanges: false);
+
+            return Ok(product);
         }
     }
 }

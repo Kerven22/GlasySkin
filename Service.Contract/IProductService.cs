@@ -1,9 +1,12 @@
 ﻿using Shared.CreateDtos;
+using Shared.ResponsiesDto;
 
 namespace Service.Contract
 {
     public interface IProductService
     {
-        Task<ProductDto> Create(Guid typeId, string name, decimal cost, int Quantity, string review, bool trackChanges);
+        Task<ProductRequestDto> Create(ProductRequestDto product, bool trackChanges);
+
+        Task<IEnumerable<ProductResponseDto>> GetAllProductAsync(); 
     }
 }

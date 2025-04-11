@@ -1,11 +1,12 @@
 ﻿using Shared.CreateDtos;
+using Shared.ResponsiesDto;
 
 namespace Repository.Contract
 {
     public interface IProductRepository
     {
-        Task<bool> TypeExists(Guid typeId);
+        Task CreateProduct(ProductRequestDto productRequestDto, bool trackCahnges);
 
-        Task<ProductDto> CreateProduct(Guid typeId, string name, decimal cost, int quantity, string review=""); 
+        Task<IEnumerable<ProductResponseDto>> GetAllProductsAsync(); 
     }
 }

@@ -17,6 +17,8 @@ namespace Entity.Models
 
         public string PhoneNumber { get; set; }
 
+        public Basket Basket { get; set; }
+
         [InverseProperty(nameof(Comment.User))]
         public ICollection<Comment> Comments { get; set; }
 

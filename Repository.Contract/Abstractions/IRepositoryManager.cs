@@ -2,7 +2,7 @@
 {
     public interface IRepositoryManager
     {
-        ITypeRepository Type { get; }
+        ICategoryRepository Category { get; }
         IProductRepository Product { get;  }
         ICommentRepository Comment { get; }
         IUserRepository User { get; }

@@ -5,6 +5,6 @@
         public const string SecretKey = "MySecretkeyMySecretkeyMySecretkey";
         public const string Issure = "GazySkin";
         public const string Audience = "User";
-        public const double ExpiresHours = 12; 
+        public const double ExpiresHours = 2; 
     }
 }

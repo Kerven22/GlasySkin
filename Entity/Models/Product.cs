@@ -9,7 +9,7 @@ namespace Entity.Models
         [Column("ProductId")]
         public Guid ProductId { get; set; }
 
-        public Guid TypeId { get; set; }
+        public Guid CategoryId { get; set; }
 
         public string Name { get; set; }
 
@@ -19,12 +19,10 @@ namespace Entity.Models
 
         public int Quantity { get; set; } //количество товара в магазине
 
-        public ICollection<Basket>? Baskets { get; set; }
-
         [InverseProperty(nameof(Comment.Product))]
         public ICollection<Comment>? Comments { get; set; }
 
-        [ForeignKey(nameof(TypeId))]
-        public Type Type { get; set; }
+        [ForeignKey(nameof(CategoryId))]
+        public Category Cagetgory { get; set; }
     }
 }

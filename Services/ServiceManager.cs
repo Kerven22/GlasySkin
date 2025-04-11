@@ -8,7 +8,7 @@ namespace Services
     {
         private readonly Lazy<IUserService> _userService;
 
-        private readonly Lazy<ITypeService> _typeService;
+        private readonly Lazy<ICategoryService> _categoryService;
 
         private readonly Lazy<IProductService> _productService;
 
@@ -22,7 +22,7 @@ namespace Services
         {
             _jwtProvider = jwtProvider; 
             _userService = new Lazy<IUserService>(() => new UserService.UserService(repositoryManager, _jwtProvider));
-            _typeService = new Lazy<ITypeService>(() => new TypeService(repositoryManager));
+            _categoryService = new Lazy<ICategoryService>(() => new CategoryService(repositoryManager));
             _productService = new Lazy<IProductService>(() => new ProductService.ProductService(repositoryManager));
             _commentService = new Lazy<ICommentService>(() => new CommentService(repositoryManager));
             _basketService = new Lazy<IBasketService>(() => new BasketService(repositoryManager));
@@ -31,7 +31,7 @@ namespace Services
 
         public IUserService UserServiec => _userService.Value;
 
-        public ITypeService TypeService => _typeService.Value;
+        public ICategoryService CategoryService => _categoryService.Value;
 
         public IProductService ProductService => _productService.Value;
 

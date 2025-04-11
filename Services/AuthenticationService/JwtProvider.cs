@@ -12,7 +12,7 @@ namespace Services.AuthenticationService
 
         public string GenerateToken(UserDto userDto)
         {
-            Claim[] claims = [new("Login", userDto.Login)];
+            Claim[] claims = [new("Login", userDto.Login), new(ClaimTypes.Role, "Admin")];
 
             var signingCredentials = new SigningCredentials(
                 new SymmetricSecurityKey(Encoding.UTF8.GetBytes(AuthOption.SecretKey)), SecurityAlgorithms.HmacSha256);
@@ -29,7 +29,6 @@ namespace Services.AuthenticationService
 
             return tokenValue;
         }
-
 
     }
 }

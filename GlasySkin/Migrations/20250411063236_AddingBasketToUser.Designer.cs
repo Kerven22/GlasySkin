@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repositories.DataBaseContext;
 
@@ -11,9 +12,11 @@ using Repositories.DataBaseContext;
 namespace GlasySkin.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    partial class RepositoryContextModelSnapshot : ModelSnapshot
+    [Migration("20250411063236_AddingBasketToUser")]
+    partial class AddingBasketToUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,16 +48,16 @@ namespace GlasySkin.Migrations
 
             modelBuilder.Entity("Entity.Models.Category", b =>
                 {
-                    b.Property<Guid>("CategoryId")
+                    b.Property<Guid>("TypeId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
-                        .HasColumnName("CategoryId ");
+                        .HasColumnName("TypeId");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("CategoryId");
+                    b.HasKey("TypeId");
 
                     b.ToTable("Categories");
                 });
@@ -101,9 +104,6 @@ namespace GlasySkin.Migrations
                     b.Property<Guid?>("BasketId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CategoryId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<decimal>("Cost")
                         .HasColumnType("decimal(18,2)");
 
@@ -117,11 +117,14 @@ namespace GlasySkin.Migrations
                     b.Property<string>("Review")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid>("TypeId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("ProductId");
 
                     b.HasIndex("BasketId");
 
-                    b.HasIndex("CategoryId");
+                    b.HasIndex("TypeId");
 
                     b.ToTable("Products");
                 });
@@ -192,7 +195,7 @@ namespace GlasySkin.Migrations
 
                     b.HasOne("Entity.Models.Category", "Cagetgory")
                         .WithMany("Products")
-                        .HasForeignKey("CategoryId")
+                        .HasForeignKey("TypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

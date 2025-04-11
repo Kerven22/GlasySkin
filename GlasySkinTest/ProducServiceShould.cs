@@ -12,7 +12,7 @@ namespace GlasySkinTest
     {
         private readonly Mock<IRepositoryManager> repositoryManager;
         private readonly ISetup<IRepositoryManager, Task<bool>> typeExistsSetup;
-        private readonly ISetup<IRepositoryManager, Task<ProductDto>> createProductSetup;
+        private readonly ISetup<IRepositoryManager, Task<ProductRequestDto>> createProductSetup;
         private readonly ProductService sut;
         public ProducServiceShould()
         {
@@ -35,7 +35,7 @@ namespace GlasySkinTest
             var typeId = Guid.Parse("d49fd654-23cb-403d-9ac4-266fb6503483");
 
             await sut.Invoking(s => s.Create(typeId, "Clear", 23.4m, 10, "hello",false))
-                .Should().ThrowAsync<TypeNotFoundException>();
+                .Should().ThrowAsync<CategoryNotFoundException>();
 
             repositoryManager.Verify(s => s.Product.TypeExists(typeId)); 
         }
@@ -49,7 +49,7 @@ namespace GlasySkinTest
             
             var typeId = Guid.Parse("98e79b97-f11b-4d20-8f8f-c13af487536a"); 
             
-            var expected = new ProductDto(typeId, "Clear", 23.4m, 10, "hello");
+            var expected = new ProductRequestDto(typeId, "Clear", 23.4m, 10, "hello");
 
             createProductSetup.ReturnsAsync(expected); 
             
