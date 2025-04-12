@@ -5,7 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checout Repository
-      uses: actions/checout@v3
+      uses: actions/checkout@v3
     - name: Setup .Net
       uses: actions/setup-dotnet@v3
       with:
