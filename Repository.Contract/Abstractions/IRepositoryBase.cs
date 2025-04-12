@@ -9,5 +9,7 @@ namespace Repository.Contract.Abstractions
         Task CreateAsync(T entity);
         void Update(T entity);
         void Delete(T entity);
+
+        Task<bool> Exists(Expression<Func<T,bool>> expression, CancellationToken cancellationToken); 
     }
 }

@@ -9,8 +9,8 @@ namespace Repositories
     {
         public CategoryRepository(RepositoryContext repositoryContext) : base(repositoryContext) { }
 
-
-
+        public async Task<bool> CategoryExists(Guid categoryId, CancellationToken cancellationToken) =>
+            await Exists(c => c.CategoryId == categoryId, cancellationToken); 
 
         public async Task CreateCategoryAsync(Category category) => await CreateAsync(category);
 

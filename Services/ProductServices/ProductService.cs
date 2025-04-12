@@ -8,10 +8,10 @@ namespace Services.ProductService
 {
     public class ProductService(IRepositoryManager _repositoryManager) : IProductService
     {
-        public async Task<ProductRequestDto> Create(Guid categoryId, ProductRequestDto productRequestDto, bool trackChanges)
+        public async Task<ProductRequestDto> Create(Guid categoryId, ProductRequestDto productRequestDto, bool trackChanges, CancellationToken cancellationToken)
         {
-            var category = await _repositoryManager.Category.GetCategoryAsync(categoryId, trackChanges); 
-            if (category is null)
+            var category = await _repositoryManager.Category.CategoryExists(categoryId, cancellationToken); 
+            if (!category)
                 throw new CategoryNotFoundException(categoryId);
 
             await _repositoryManager.Product.CreateProduct(categoryId, productRequestDto, trackChanges);

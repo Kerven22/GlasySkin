@@ -19,9 +19,9 @@ namespace Presentation.Controllers
 
         [HttpPost("{categoryid:guid}/products")]
         public async Task<IActionResult> CreateProduct(Guid categoryId,
-            [FromBody] ProductRequestDto responseDto)
+            [FromBody] ProductRequestDto requestDto, CancellationToken cancellationToken)
         {
-            var product = await _serviceManager.ProductService.Create(categoryId, responseDto, trackChanges: false);
+            var product = await _serviceManager.ProductService.Create(categoryId, requestDto, trackChanges: false, cancellationToken);
 
             return Ok(product);
         }
