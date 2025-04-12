@@ -8,21 +8,29 @@ namespace Services.ProductService
 {
     public class ProductService(IRepositoryManager _repositoryManager) : IProductService
     {
-        public async Task<ProductRequestDto> Create(ProductRequestDto productRequestDto, bool trackChanges)
+        public async Task<ProductRequestDto> Create(Guid categoryId, ProductRequestDto productRequestDto, bool trackChanges)
         {
-            var category = await _repositoryManager.Category.GetCategoryAsync(productRequestDto.categoryId, trackChanges); 
+            var category = await _repositoryManager.Category.GetCategoryAsync(categoryId, trackChanges); 
             if (category is null)
-                throw new CategoryNotFoundException(productRequestDto.categoryId);
+                throw new CategoryNotFoundException(categoryId);
 
-            await _repositoryManager.Product.CreateProduct(productRequestDto, trackChanges);
+            await _repositoryManager.Product.CreateProduct(categoryId, productRequestDto, trackChanges);
+            await _repositoryManager.SaveAsync();
 
             return productRequestDto;
         }
 
 
-        public Task<IEnumerable<ProductResponseDto>> GetAllProductAsync()
+        public async Task<IEnumerable<ProductResponseDto>> GetAllProductAsync(Guid categoryId, bool trackChanges, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var category = await _repositoryManager.Category.GetCategoryAsync(categoryId, trackChanges);
+            if (category is null)
+                throw new CategoryNotFoundException(categoryId);
+
+            var products = await _repositoryManager.Product.GetAllProductsAsync(categoryId, trackChanges);
+
+            return products; 
         }
+
     }
 }

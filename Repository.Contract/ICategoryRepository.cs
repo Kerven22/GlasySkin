@@ -7,5 +7,8 @@ namespace Repository.Contract
         Task<IEnumerable<Category>> GetAllCategoriesAsync(bool trackChanges);
 
         Task<Category> GetCategoryAsync(Guid CategoryId, bool trackChanges);
+
+        Task CreateCategoryAsync(Category category);
+
     }
 }

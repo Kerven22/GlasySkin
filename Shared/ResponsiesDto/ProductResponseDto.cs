@@ -5,6 +5,5 @@
         Guid TypeId, 
         string Name, 
         decimal Cost, 
-        string Review, 
-        string TypeName);
+        string Review);
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contract;
+using Shared.CreateDtos;
 using Shared.ResponsiesDto;
 
 namespace Presentation.Controllers
@@ -11,7 +12,6 @@ namespace Presentation.Controllers
     {
 
         [HttpGet]
-        [Authorize]
         [ProducesResponseType(200, Type = typeof(CategoryResponseDto[]))]
 
         public async Task<IActionResult> GetCategories()
@@ -19,6 +19,15 @@ namespace Presentation.Controllers
             var categories = await _serviceManager.CategoryService.GetAllCategories(trackChanges: false);
 
             return Ok(categories);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> CreateCategory(CategoryRequestDto requestDto)
+        {
+            var category = await _serviceManager.CategoryService.CreateCategoryAsync(requestDto); 
+
+            return Ok(category); 
         }
     }
 }

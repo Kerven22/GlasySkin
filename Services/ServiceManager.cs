@@ -1,4 +1,5 @@
-﻿using Repository.Contract.Abstractions;
+﻿using AutoMapper;
+using Repository.Contract.Abstractions;
 using Service.Contract;
 using Services.AuthenticationService;
 
@@ -18,11 +19,11 @@ namespace Services
 
         private readonly IJwtProvider _jwtProvider; 
 
-        public ServiceManager(IRepositoryManager repositoryManager, IJwtProvider jwtProvider)
+        public ServiceManager(IRepositoryManager repositoryManager, IJwtProvider jwtProvider, IMapper mapper)
         {
             _jwtProvider = jwtProvider; 
             _userService = new Lazy<IUserService>(() => new UserService.UserService(repositoryManager, _jwtProvider));
-            _categoryService = new Lazy<ICategoryService>(() => new CategoryService(repositoryManager));
+            _categoryService = new Lazy<ICategoryService>(() => new CategoryService(repositoryManager, mapper));
             _productService = new Lazy<IProductService>(() => new ProductService.ProductService(repositoryManager));
             _commentService = new Lazy<ICommentService>(() => new CommentService(repositoryManager));
             _basketService = new Lazy<IBasketService>(() => new BasketService(repositoryManager));

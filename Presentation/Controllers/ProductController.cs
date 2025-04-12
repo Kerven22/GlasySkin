@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Service.Contract;
 using Shared.CreateDtos;
+using Shared.ResponsiesDto;
 
 namespace Presentation.Controllers
 {
@@ -8,17 +9,19 @@ namespace Presentation.Controllers
     [Route("/categories")]
     public class ProductController(IServiceManager _serviceManager) : ControllerBase
     {
-        [HttpGet("products")]
-        public async Task<IActionResult> GetProducts()
+        [HttpGet("{categoryid:guid}/products")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<ProductResponseDto>))]
+        public async Task<IActionResult> GetProducts(Guid categoryId, CancellationToken cancellationToken)
         {
-            var products = await _serviceManager.ProductService.GetAllProductAsync();
+            var products = await _serviceManager.ProductService.GetAllProductAsync(categoryId, trackChanges:false, cancellationToken);
             return Ok(products);
         }
 
-        [HttpPost("products/create")]
-        public async Task<IActionResult> CreateProduct([FromBody] ProductRequestDto responseDto)
+        [HttpPost("{categoryid:guid}/products")]
+        public async Task<IActionResult> CreateProduct(Guid categoryId,
+            [FromBody] ProductRequestDto responseDto)
         {
-            var product = await _serviceManager.ProductService.Create(responseDto, trackChanges: false);
+            var product = await _serviceManager.ProductService.Create(categoryId, responseDto, trackChanges: false);
 
             return Ok(product);
         }

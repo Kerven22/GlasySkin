@@ -1,4 +1,4 @@
 ﻿namespace Shared.ResponsiesDto
 {
-    public record CategoryResponseDto(Guid id, string title);
+    public record CategoryResponseDto(Guid id, string name);
 }

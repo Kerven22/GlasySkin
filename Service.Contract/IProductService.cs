@@ -5,8 +5,8 @@ namespace Service.Contract
 {
     public interface IProductService
     {
-        Task<ProductRequestDto> Create(ProductRequestDto product, bool trackChanges);
+        Task<ProductRequestDto> Create(Guid categoryId, ProductRequestDto product, bool trackChanges);
 
-        Task<IEnumerable<ProductResponseDto>> GetAllProductAsync(); 
+        Task<IEnumerable<ProductResponseDto>> GetAllProductAsync(Guid categoriId, bool trackChanges, CancellationToken cancellationToken); 
     }
 }
