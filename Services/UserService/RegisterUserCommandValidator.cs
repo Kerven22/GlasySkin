@@ -3,17 +3,17 @@ using Shared.ValidatorCommands;
 
 namespace Services.UserService
 {
-    internal class RegisterUserCommandValidator:AbstractValidator<RegisgerUserDto>
+    public class RegisterUserCommandValidator:AbstractValidator<RegisgerUserDto>
     {
         public RegisterUserCommandValidator()
         {
-            RuleFor(l => l.Login).NotEmpty().WithErrorCode("Login not be empty!");
+            RuleFor(l => l.Login).Cascade(CascadeMode.Stop).NotEmpty().WithErrorCode("Login not be empty!");
 
-            RuleFor(e => e.Email).NotEmpty().WithErrorCode("Email not be empty!");
+            RuleFor(e => e.Email).Cascade(CascadeMode.Stop).NotEmpty().WithErrorCode("Email not be empty!");
 
-            RuleFor(pn => pn.PhoneNumber).NotEmpty().WithErrorCode("Phone number not be empty!");
+            RuleFor(pn => pn.PhoneNumber).Cascade(CascadeMode.Stop).NotEmpty().WithErrorCode("Phone number not be empty!");
 
-            RuleFor(p => p.Password).NotEmpty().WithErrorCode("Passowrd is empty!");
+            RuleFor(p => p.Password).Cascade(CascadeMode.Stop).NotEmpty().WithErrorCode("Passowrd is empty!");
         }
     }
 }

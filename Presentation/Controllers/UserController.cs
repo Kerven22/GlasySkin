@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Service.Contract;
 using Shared.LogInDto;
+using Shared.ResponsiesDto;
 using Shared.ValidatorCommands;
 
 namespace Presentation.Controllers
@@ -11,6 +12,15 @@ namespace Presentation.Controllers
     [Route("api/users")]
     public class UserController(IServiceManager _serviceManager):ControllerBase
     {
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllUsers(CancellationToken cancellationToken)
+        {
+            var users = await _serviceManager.UserServiec.GetUsers(cancellationToken);
+
+            return Ok(users); 
+        }
+
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisgerUserDto regisgerUserDto)
         {

@@ -1,5 +1,6 @@
 using GlasySkin.Extentions;
 using Services.AuthenticationService;
+using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +23,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+app.ConfigureExceptionHandler(); 
+
 
 app.UseSwagger();
 app.UseSwaggerUI();

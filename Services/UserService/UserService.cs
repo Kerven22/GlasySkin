@@ -3,6 +3,7 @@ using Service.Contract;
 using Services.AuthenticationService;
 using Shared.CreateDtos;
 using Shared.LogInDto;
+using Shared.ResponsiesDto;
 using Shared.ValidatorCommands;
 
 namespace Services.UserService
@@ -18,6 +19,15 @@ namespace Services.UserService
             return userDto; 
 
             
+        }
+
+        public async Task<IEnumerable<UserResponse>> GetUsers(CancellationToken cancellationToken)
+        {
+            var usersEntity = await _repositoryManager.User.GetAllUsers(cancellationToken);
+
+            var userDto = usersEntity.Select(u => new UserResponse(u.UserId, u.Login, u.Email, u.PhoneNumber));
+
+            return userDto; 
         }
 
         public async Task<string> Login(LogInDto logInDto)

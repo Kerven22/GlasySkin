@@ -4,10 +4,12 @@ namespace Repository.Contract
 {
     public interface IUserRepository
     {
-        public Task Register(string login, string passwordHash, string email, string phoneNumber);
+        Task Register(string login, string passwordHash, string email, string phoneNumber);
 
-        public Task<string> Login();
+        Task<string> Login();
 
-        public Task<User> GetUserByLoginAsync(string login, bool trackChanges); 
+        Task<User> GetUserByLoginAsync(string login, bool trackChanges);
+
+        Task<IEnumerable<User>> GetAllUsers(CancellationToken cancellationToken); 
     }
 }

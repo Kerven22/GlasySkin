@@ -12,7 +12,12 @@ namespace Repositories
             
         }
 
-        public async Task<User> GetUserByLoginAsync(string login, bool trackChanges) =>
+        public Task<IEnumerable<User>> GetAllUsers(CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<User?> GetUserByLoginAsync(string login, bool trackChanges) =>
             await FindByCondition(c => c.Login.Equals(login), trackChanges).SingleOrDefaultAsync(); 
 
 
