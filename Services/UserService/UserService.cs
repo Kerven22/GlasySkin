@@ -16,19 +16,20 @@ namespace Services.UserService
 
             var userDto = new UserDto(user.Login, user.PasswordHash, user.Email, user.PhoneNumber);
 
-            return userDto; 
-
-            
+            return userDto;             
         }
 
         public async Task<IEnumerable<UserResponse>> GetUsers(CancellationToken cancellationToken)
         {
-            var usersEntity = await _repositoryManager.User.GetAllUsers(cancellationToken);
+            var usersEntity = _repositoryManager.User.GetAllUsers(cancellationToken);
 
             var userDto = usersEntity.Select(u => new UserResponse(u.UserId, u.Login, u.Email, u.PhoneNumber));
 
             return userDto; 
         }
+
+
+
 
         public async Task<string> Login(LogInDto logInDto)
         {
@@ -45,13 +46,11 @@ namespace Services.UserService
 
 
 
-        public async Task Register(RegisgerUserDto userCommand)
+        public async Task Register(RegisterUserDto userCommand)
         {
             var hashPassword = PasswordHasher.Generate(userCommand.Password);
 
             await _repositoryManager.User.Register(userCommand.Login, hashPassword, userCommand.Email, userCommand.PhoneNumber); 
-
-
         }
     }
 }

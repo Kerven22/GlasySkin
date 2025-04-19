@@ -10,6 +10,6 @@ namespace Repository.Contract
 
         Task<User> GetUserByLoginAsync(string login, bool trackChanges);
 
-        Task<IEnumerable<User>> GetAllUsers(CancellationToken cancellationToken); 
+        IEnumerable<User> GetAllUsers(CancellationToken cancellationToken); 
     }
 }

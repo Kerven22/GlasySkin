@@ -7,7 +7,7 @@ namespace Service.Contract
 {
     public interface IUserService
     {
-        Task Register(RegisgerUserDto userCommand);
+        Task Register(RegisterUserDto userCommand);
 
         Task<UserDto> GetUser(string login, bool trakChanges); 
         
