@@ -3,7 +3,7 @@ using Shared.ValidatorCommands;
 
 namespace Services.UserService
 {
-    public class RegisterUserCommandValidator:AbstractValidator<RegisgerUserDto>
+    public class RegisterUserCommandValidator:AbstractValidator<RegisterUserDto>
     {
         public RegisterUserCommandValidator()
         {

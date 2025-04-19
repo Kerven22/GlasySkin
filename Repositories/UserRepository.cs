@@ -7,23 +7,18 @@ namespace Repositories
 {
     public class UserRepository : RepositoryBase<User>, IUserRepository
     {
-        public UserRepository(RepositoryContext repositoryContext):base(repositoryContext)
-        {
-            
-        }
+        public UserRepository(RepositoryContext repositoryContext):base(repositoryContext) { }
 
-        public Task<IEnumerable<User>> GetAllUsers(CancellationToken cancellationToken)
+
+        public IEnumerable<User> GetAllUsers(CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var users = GetAll(trackChanges: false);
+
+            return users; 
         }
 
         public async Task<User?> GetUserByLoginAsync(string login, bool trackChanges) =>
             await FindByCondition(c => c.Login.Equals(login), trackChanges).SingleOrDefaultAsync(); 
-
-
-
-
-
 
         public async Task Register(string login, string passwordHash, string email, string phoneNumber)
         {
@@ -38,10 +33,6 @@ namespace Repositories
 
             await _repositoryContext.SaveChangesAsync(); 
         }
-
-
-
-
 
         Task<string> IUserRepository.Login()
         {

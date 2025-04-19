@@ -7,8 +7,8 @@ namespace Services.UserService
     {
         public LogInDtoValidatior()
         {
-            RuleFor(p => p.Password).NotEmpty().WithErrorCode("Password Empty!"); 
-            RuleFor(l=>l.Login).NotEmpty().WithErrorCode("Login Empty!");
+            RuleFor(p => p.Password).Cascade(CascadeMode.Stop).NotEmpty().WithErrorCode("Password Empty!"); 
+            RuleFor(l=>l.Login).Cascade(CascadeMode.Stop).NotEmpty().WithErrorCode("Login Empty!");
 
         }
     }
