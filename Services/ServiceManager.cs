@@ -23,10 +23,10 @@ namespace Services
         {
             _jwtProvider = jwtProvider; 
             _userService = new Lazy<IUserService>(() => new UserService.UserService(repositoryManager, _jwtProvider));
-            _categoryService = new Lazy<ICategoryService>(() => new CategoryService(repositoryManager, mapper));
+            _categoryService = new Lazy<ICategoryService>(() => new CategoryService.CategoryService(repositoryManager, mapper));
             _productService = new Lazy<IProductService>(() => new ProductService.ProductService(repositoryManager));
-            _commentService = new Lazy<ICommentService>(() => new CommentService(repositoryManager));
-            _basketService = new Lazy<IBasketService>(() => new BasketService(repositoryManager));
+            _commentService = new Lazy<ICommentService>(() => new CommentService.CommentService(repositoryManager));
+            _basketService = new Lazy<IBasketService>(() => new BasketService.BasketService(repositoryManager));
         }
 
 

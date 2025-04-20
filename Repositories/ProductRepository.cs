@@ -12,7 +12,7 @@ namespace Repositories
         public ProductRepository(RepositoryContext _repositoryContext) : base(_repositoryContext) { }
 
 
-        public async Task CreateProduct(Guid categoryId, ProductRequestDto productRequestDto, bool tracakChanges)
+        public async Task<ProductResponseDto> CreateProduct(Guid categoryId, ProductRequestDto productRequestDto, bool tracakChanges)
         {
             Product product = new Product()
             {
@@ -24,7 +24,9 @@ namespace Repositories
 
             };
 
-            await CreateAsync(product); 
+            await CreateAsync(product);
+
+            return GetProduct(categoryId, productRequestDto.name); 
 
         }
 
@@ -32,9 +34,20 @@ namespace Repositories
         {
             var product = await FindByCondition(e => e.CategoryId.Equals(categoryId), trackChanges).ToListAsync();
 
-            var productDto = product.Select(p => new ProductResponseDto(p.ProductId, p.CategoryId, p.Name, p.Cost, p.Review)); 
+            var productDto = product.Select(p => new ProductResponseDto(p.CategoryId, p.Name, p.Cost, p.Review)); 
 
             return productDto; 
+        }
+
+        public ProductResponseDto GetProduct(Guid categoryId, string name)
+        {
+            var getProduct = FindByCondition(p => p.CategoryId.Equals(categoryId)
+                 && p.Name.Equals(name), trackChanges:false).First();
+
+            ProductResponseDto productResponse = new ProductResponseDto(
+                getProduct.CategoryId, getProduct.Name, getProduct.Cost, getProduct.Review);
+
+            return productResponse;
         }
     }
 }

@@ -19,4 +19,8 @@
     <ProjectReference Include="..\Service.Contract\Service.Contract.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="AuthorizationService\" />
+  </ItemGroup>
+
 </Project>

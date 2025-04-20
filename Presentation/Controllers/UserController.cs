@@ -22,7 +22,7 @@ namespace Presentation.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisgerUserDto regisgerUserDto)
+        public async Task<IActionResult> Register([FromBody] RegisterUserDto regisgerUserDto)
         {
             await _serviceManager.UserServiec.Register(regisgerUserDto);   
             return Ok();

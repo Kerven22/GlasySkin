@@ -1,5 +1,4 @@
 ﻿using FluentAssertions;
-using FluentValidation;
 using Services.UserService;
 using Shared.ValidatorCommands;
 
@@ -29,7 +28,8 @@ namespace GlasySkinTest
 
         public static IEnumerable<object[]> GetInvalidRegisterUserDto()
         {
-            yield return new[] { new RegisterUserDto {Login = string.Empty, Email = "kerwen.jumazew@gmail.com", Password = "MyPassword", PhoneNumber = "64635213452" } };  
+            yield return new[] { new RegisterUserDto
+            {Login = string.Empty, Email = "kerwen.jumazew@gmail.com", Password = "MyPassword", PhoneNumber = "64635213452" } };
         }
 
         [Theory]

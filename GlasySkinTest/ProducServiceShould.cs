@@ -5,6 +5,7 @@ using Repository.Contract.Abstractions;
 using Services.ProductService;
 using Shared.CreateDtos;
 using Shared.Exceptions;
+using Shared.ResponsiesDto;
 
 namespace GlasySkinTest
 {
@@ -12,15 +13,16 @@ namespace GlasySkinTest
     {
         private readonly Mock<IRepositoryManager> repositoryManager;
         private readonly ISetup<IRepositoryManager, Task<bool>> categoryExistsSetup;
-        private readonly ISetup<IRepositoryManager, Task> createProductSetup;
+        private readonly ISetup<IRepositoryManager, Task<ProductResponseDto>> createProductSetup;
         private readonly ProductService sut;
         public ProducServiceShould()
         {
             repositoryManager = new Mock<IRepositoryManager>();
 
-            categoryExistsSetup = repositoryManager.Setup(s => s.Category.CategoryExists(It.IsAny<Guid>(),It.IsAny<CancellationToken>()));
+            categoryExistsSetup = repositoryManager.Setup(s => 
+            s.Category.CategoryExists(It.IsAny<Guid>(),It.IsAny<CancellationToken>()));
 
-            createProductSetup = repositoryManager.Setup(s => 
+            createProductSetup = repositoryManager.Setup(s =>
                 s.Product.CreateProduct(It.IsAny<Guid>(), It.IsAny<ProductRequestDto>(), It.IsAny<bool>()));
 
             sut = new ProductService(repositoryManager.Object);
@@ -47,11 +49,11 @@ namespace GlasySkinTest
         {
             categoryExistsSetup.ReturnsAsync(true);
             
-            var typeId = Guid.Parse("98e79b97-f11b-4d20-8f8f-c13af487536a"); 
+            var typeId = Guid.Parse("98e79b97-f11b-4d20-8f8f-c13af487536a");
             
-            var expected = new ProductRequestDto("Clear", 23.4m, 10, "hello");
+            var expected = new ProductResponseDto(typeId, "Clear", 23.4m, "hello");
 
-            //createProductSetup.ReturnsAsync(expected); 
+             createProductSetup.ReturnsAsync(expected) ;
 
             var actual = await sut.Create(typeId, new ProductRequestDto("Clear", 23.4m, 10, "hello"), false, CancellationToken.None);
             actual.Should().Be(expected); 
