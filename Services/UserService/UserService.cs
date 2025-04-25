@@ -1,4 +1,5 @@
-﻿using Repository.Contract.Abstractions;
+﻿using FluentValidation;
+using Repository.Contract.Abstractions;
 using Service.Contract;
 using Services.AuthenticationService;
 using Shared.CreateDtos;
@@ -8,7 +9,7 @@ using Shared.ValidatorCommands;
 
 namespace Services.UserService
 {
-    internal sealed class UserService(IRepositoryManager _repositoryManager, IJwtProvider _jwtProvider) : IUserService
+    internal sealed class UserService(IRepositoryManager _repositoryManager, IJwtProvider _jwtProvider, IValidator<RegisterUserDto> _validator) : IUserService
     {
         public async Task<UserDto> GetUser(string login, bool trackChanges)
         {
@@ -16,7 +17,7 @@ namespace Services.UserService
 
             var userDto = new UserDto(user.Login, user.PasswordHash, user.Email, user.PhoneNumber);
 
-            return userDto;             
+            return userDto;
         }
 
         public async Task<IEnumerable<UserResponse>> GetUsers(CancellationToken cancellationToken)
@@ -25,7 +26,7 @@ namespace Services.UserService
 
             var userDto = usersEntity.Select(u => new UserResponse(u.UserId, u.Login, u.Email, u.PhoneNumber));
 
-            return userDto; 
+            return userDto;
         }
 
 
@@ -33,7 +34,7 @@ namespace Services.UserService
 
         public async Task<string> Login(LogInDto logInDto)
         {
-            var userDto = await GetUser(logInDto.Login, trackChanges:false);
+            var userDto = await GetUser(logInDto.Login, trackChanges: false);
 
             var result = PasswordHasher.Verify(logInDto.Password, userDto.Password);
             if (!result)
@@ -41,16 +42,18 @@ namespace Services.UserService
 
             var token = _jwtProvider.GenerateToken(userDto);
 
-            return token; 
+            return token;
         }
 
 
 
         public async Task Register(RegisterUserDto userCommand)
         {
+            await _validator.ValidateAndThrowAsync(userCommand); 
+
             var hashPassword = PasswordHasher.Generate(userCommand.Password);
 
-            await _repositoryManager.User.Register(userCommand.Login, hashPassword, userCommand.Email, userCommand.PhoneNumber); 
+            await _repositoryManager.User.Register(userCommand.Login, hashPassword, userCommand.Email, userCommand.PhoneNumber);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Repository.Contract.Abstractions;
+﻿using FluentValidation;
+using Repository.Contract.Abstractions;
 using Service.Contract;
 using Shared.CreateDtos;
 using Shared.Exceptions;
@@ -6,16 +7,21 @@ using Shared.ResponsiesDto;
 
 namespace Services.ProductService
 {
-    public class ProductService(IRepositoryManager _repositoryManager) : IProductService
+    public class ProductService(IRepositoryManager _repositoryManager, IValidator<ProductRequestDto> _validtor) : IProductService
     {
         public async Task<ProductResponseDto> Create(Guid categoryId, ProductRequestDto productRequestDto, bool trackChanges, CancellationToken cancellationToken)
         {
-            var category = await _repositoryManager.Category.CategoryExists(categoryId, cancellationToken); 
+            await _validtor.ValidateAndThrowAsync(productRequestDto, cancellationToken);
+
+            var category = await _repositoryManager.Category.CategoryExists(categoryId, cancellationToken);
             if (!category)
                 throw new CategoryNotFoundException(categoryId);
 
-            var productResponse = await _repositoryManager.Product.CreateProduct(categoryId, productRequestDto, trackChanges);
-            await _repositoryManager.SaveAsync();
+            await _repositoryManager.Product.CreateProduct(categoryId, productRequestDto, trackChanges);
+
+            var productResponse = await _repositoryManager.Product.GetProduct(categoryId, productRequestDto.Name);
+            if (productResponse is null)
+                throw new Exception("product was't create"); 
 
             return productResponse;
         }
@@ -29,8 +35,13 @@ namespace Services.ProductService
 
             var products = await _repositoryManager.Product.GetAllProductsAsync(categoryId, trackChanges);
 
-            return products; 
+            return products;
         }
 
+        public async Task<ProductResponseDto> GetProductByName(Guid categoryId, string name)
+        {
+            var produc = await _repositoryManager.Product.GetProduct(categoryId, name);
+            return produc;
+        }
     }
 }

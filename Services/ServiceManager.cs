@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using Repository.Contract.Abstractions;
 using Service.Contract;
 using Services.AuthenticationService;
+using Shared.CreateDtos;
+using Shared.ValidatorCommands;
 
 namespace Services
 {
@@ -17,14 +20,13 @@ namespace Services
 
         private readonly Lazy<IBasketService> _basketService;
 
-        private readonly IJwtProvider _jwtProvider; 
 
-        public ServiceManager(IRepositoryManager repositoryManager, IJwtProvider jwtProvider, IMapper mapper)
+
+        public ServiceManager(IRepositoryManager repositoryManager, IJwtProvider _jwtProvider, IMapper mapper, IValidator<RegisterUserDto> _validator, IValidator<ProductRequestDto> _productValidator)
         {
-            _jwtProvider = jwtProvider; 
-            _userService = new Lazy<IUserService>(() => new UserService.UserService(repositoryManager, _jwtProvider));
+            _userService = new Lazy<IUserService>(() => new UserService.UserService(repositoryManager, _jwtProvider, _validator));
             _categoryService = new Lazy<ICategoryService>(() => new CategoryService.CategoryService(repositoryManager, mapper));
-            _productService = new Lazy<IProductService>(() => new ProductService.ProductService(repositoryManager));
+            _productService = new Lazy<IProductService>(() => new ProductService.ProductService(repositoryManager, _productValidator));
             _commentService = new Lazy<ICommentService>(() => new CommentService.CommentService(repositoryManager));
             _basketService = new Lazy<IBasketService>(() => new BasketService.BasketService(repositoryManager));
         }
@@ -38,6 +40,6 @@ namespace Services
 
         public ICommentService CommentService => _commentService.Value;
 
-        public IBasketService BacketService => _basketService.Value; 
+        public IBasketService BacketService => _basketService.Value;
     }
 }

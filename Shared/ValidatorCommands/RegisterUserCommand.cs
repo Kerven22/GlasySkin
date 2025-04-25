@@ -1,6 +1,6 @@
 ﻿namespace Shared.ValidatorCommands
 {
-    public class RegisterUserDto
+    public record RegisterUserDto
     {
         public string Login { get; set; }
         public string Email { get; set; }

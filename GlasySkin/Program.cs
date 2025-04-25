@@ -1,6 +1,10 @@
+using FluentValidation;
 using GlasySkin.Extentions;
 using Services.AuthenticationService;
-using System.Net;
+using Services.ProductService;
+using Services.UserService;
+using Shared.CreateDtos;
+using Shared.ValidatorCommands;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,20 +15,21 @@ builder.Services.AddControllers()
 builder.Services.RepositoryManagerConfigure();
 
 builder.Services.AddAuthorization();
-builder.Services.AddApiAuthentication(); 
+builder.Services.AddApiAuthentication();
 
 builder.Services.ServiceManagerConfigure();
 builder.Services.CorsConfigure();
 builder.Services.SqlServerConfigure(builder.Configuration);
 builder.Services.AddScoped<IJwtProvider, JwtProvider>();
-builder.Services.AddAutoMapper(typeof(Program)); 
-
+builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddScoped<IValidator<ProductRequestDto>, CreateProductCommandValidator>();
+builder.Services.AddScoped<IValidator<RegisterUserDto>, RegisterUserCommandValidator>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-app.ConfigureExceptionHandler(); 
+//app.ConfigureExceptionHandler();
 
 
 app.UseSwagger();
@@ -45,5 +50,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+//app.UseMiddleware<ErrorHandleMiddleware>();
 
 app.Run();

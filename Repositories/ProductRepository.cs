@@ -17,18 +17,20 @@ namespace Repositories
             Product product = new Product()
             {
                 CategoryId = categoryId, 
-                Name = productRequestDto.name, 
-                Cost = productRequestDto.cost, 
-                Quantity = productRequestDto.quantity, 
-                Review = productRequestDto.review
+                Name = productRequestDto.Name, 
+                Cost = productRequestDto.Cost, 
+                Quantity = productRequestDto.Quantity, 
+                Review = productRequestDto.Review
 
             };
 
-            await CreateAsync(product);
+            await _repositoryContext.Products.AddAsync(product);
+            await _repositoryContext.SaveChangesAsync();
 
-            return GetProduct(categoryId, productRequestDto.name); 
-
+            return await GetProduct(categoryId, product.Name);
         }
+
+
 
         public async Task<IEnumerable<ProductResponseDto>> GetAllProductsAsync(Guid categoryId, bool trackChanges)
         {
@@ -39,15 +41,14 @@ namespace Repositories
             return productDto; 
         }
 
-        public ProductResponseDto GetProduct(Guid categoryId, string name)
+        public async Task<ProductResponseDto> GetProduct(Guid categoryId, string name)
         {
-            var getProduct = FindByCondition(p => p.CategoryId.Equals(categoryId)
-                 && p.Name.Equals(name), trackChanges:false).First();
+            var getProduct = await  FindByCondition(p => p.CategoryId.Equals(categoryId)
+                 && p.Name.Equals(name), trackChanges:false).FirstAsync();
 
-            ProductResponseDto productResponse = new ProductResponseDto(
+            return  new ProductResponseDto(
                 getProduct.CategoryId, getProduct.Name, getProduct.Cost, getProduct.Review);
-
-            return productResponse;
+;
         }
     }
 }

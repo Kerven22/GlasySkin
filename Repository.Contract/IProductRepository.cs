@@ -9,6 +9,6 @@ namespace Repository.Contract
 
         Task<IEnumerable<ProductResponseDto>> GetAllProductsAsync(Guid categoryId, bool trackChanges);
 
-        ProductResponseDto GetProduct(Guid categoryId, string name); 
+        Task<ProductResponseDto> GetProduct(Guid categoryId, string name); 
     }
 }
