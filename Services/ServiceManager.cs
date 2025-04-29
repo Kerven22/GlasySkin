@@ -22,9 +22,13 @@ namespace Services
 
 
 
-        public ServiceManager(IRepositoryManager repositoryManager, IJwtProvider _jwtProvider, IMapper mapper, IValidator<RegisterUserDto> _validator, IValidator<ProductRequestDto> _productValidator)
+        public ServiceManager(IRepositoryManager repositoryManager, 
+            IJwtProvider _jwtProvider, 
+            IMapper mapper, 
+            IValidator<UserDto> _validator, 
+            IValidator<ProductRequestDto> _productValidator)
         {
-            _userService = new Lazy<IUserService>(() => new UserService.UserService(repositoryManager, _jwtProvider, _validator));
+            _userService = new Lazy<IUserService>(() => new UserService.UserService(repositoryManager, _jwtProvider, _validator, mapper));
             _categoryService = new Lazy<ICategoryService>(() => new CategoryService.CategoryService(repositoryManager, mapper));
             _productService = new Lazy<IProductService>(() => new ProductService.ProductService(repositoryManager, _productValidator));
             _commentService = new Lazy<ICommentService>(() => new CommentService.CommentService(repositoryManager));

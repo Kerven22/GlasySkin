@@ -1,5 +1,6 @@
 using FluentValidation;
 using GlasySkin.Extentions;
+using GlasySkin.Middleware;
 using Services.AuthenticationService;
 using Services.ProductService;
 using Services.UserService;
@@ -23,9 +24,10 @@ builder.Services.SqlServerConfigure(builder.Configuration);
 builder.Services.AddScoped<IJwtProvider, JwtProvider>();
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddScoped<IValidator<ProductRequestDto>, CreateProductCommandValidator>();
-builder.Services.AddScoped<IValidator<RegisterUserDto>, RegisterUserCommandValidator>();
+builder.Services.AddScoped<IValidator<UserDto>, RegisterUserCommandValidator>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddAutoMapper(typeof(Program)); 
 
 var app = builder.Build();
 
@@ -49,8 +51,9 @@ app.UseCors("CustomPolicy");
 app.UseAuthentication();
 app.UseAuthorization();
 
+
 app.MapControllers();
 
-//app.UseMiddleware<ErrorHandleMiddleware>();
+app.UseMiddleware<ErrorHandleMiddleware>();
 
 app.Run();

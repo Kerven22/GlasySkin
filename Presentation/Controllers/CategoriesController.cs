@@ -22,7 +22,6 @@ namespace Presentation.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> CreateCategory(CategoryRequestDto requestDto)
         {
             var category = await _serviceManager.CategoryService.CreateCategoryAsync(requestDto); 

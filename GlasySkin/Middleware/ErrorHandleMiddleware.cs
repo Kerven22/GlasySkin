@@ -1,4 +1,6 @@
-﻿using Shared.Exceptions;
+﻿using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Shared.Exceptions;
+using System.ComponentModel.DataAnnotations;
 
 namespace GlasySkin.Middleware
 {
@@ -12,7 +14,7 @@ namespace GlasySkin.Middleware
         }
 
 
-        public async Task Invoke(HttpContext httpContext)
+        public async Task Invoke(HttpContext httpContext, ProblemDetailsFactory problemDetails)
         {
             try
             {
@@ -20,12 +22,14 @@ namespace GlasySkin.Middleware
             }
             catch(Exception exception)
             {
-                var es = exception switch
+                var problem = exception switch
                 {
-                    CategoryNotFoundException => StatusCodes.Status410Gone,
-
-                    _ => StatusCodes.Status500InternalServerError
+                    ValidationException => problemDetails.CreateProblemDetails(httpContext, 100, "ValidationException", detail:exception.Message),
+                    _=> problemDetails.CreateProblemDetails(httpContext, 500, "Unhendled error pease contact us!", detail:exception.Message)
                 };
+
+
+                await httpContext.Response.WriteAsJsonAsync(problem); 
             }
         }
     }

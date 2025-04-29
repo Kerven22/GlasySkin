@@ -17,11 +17,19 @@ namespace Presentation.Controllers
             return Ok(products);
         }
 
+
+        [HttpGet("{categoryId:guid}/products/{name}")]
+        public async Task<IActionResult> GetProduct(Guid categoryId, string name)
+        {
+            var product = await _serviceManager.ProductService.GetProductByName(categoryId, name);
+
+            return Ok(product);
+        }
+
         [HttpPost("{categoryId:guid}/products")]
         public async Task<IActionResult> CreateProduct(Guid categoryId,
             [FromBody] ProductRequestDto requestDto, CancellationToken cancellationToken)
-        {
- 
+        { 
             var product = await _serviceManager.ProductService.Create(categoryId, requestDto, trackChanges: false, cancellationToken);
 
             return Ok(product);

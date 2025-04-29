@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
-using Shared.ValidatorCommands;
+using Shared.CreateDtos;
 
 namespace Services.UserService
 {
-    public class RegisterUserCommandValidator:AbstractValidator<RegisterUserDto>
+    public class RegisterUserCommandValidator : AbstractValidator<UserDto>
     {
         public RegisterUserCommandValidator()
         {

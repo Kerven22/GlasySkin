@@ -9,12 +9,7 @@ namespace Entity.Models
         [Column("BasketId")]
         public Guid BasketId { get; set; }
 
-        public Guid UserId { get; set; }
-
         public int? Quantity { get; set; } //количество товара в корзине
-
-        [ForeignKey(nameof(UserId))]
-        public User User { get; set; }
 
         public ICollection<Product>? Products { get; set;  }
     }

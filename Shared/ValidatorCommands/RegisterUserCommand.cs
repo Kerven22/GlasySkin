@@ -1,4 +1,6 @@
-﻿namespace Shared.ValidatorCommands
+﻿using Shared.CreateDtos;
+
+namespace Shared.ValidatorCommands
 {
     public record RegisterUserDto
     {
