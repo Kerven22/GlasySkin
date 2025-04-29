@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
-using Shared.ValidatorCommands;
+using Shared.CreateDtos;
 
 namespace Services.UserService
 {
-    public class RegisterUserCommandValidator:AbstractValidator<RegisterUserDto>
+    public class RegisterUserCommandValidator : AbstractValidator<UserDto>
     {
         public RegisterUserCommandValidator()
         {
@@ -13,7 +13,8 @@ namespace Services.UserService
 
             RuleFor(pn => pn.PhoneNumber).Cascade(CascadeMode.Stop).NotEmpty().WithErrorCode("Phone number not be empty!");
 
-            RuleFor(p => p.Password).Cascade(CascadeMode.Stop).NotEmpty().WithErrorCode("Passowrd is empty!");
+            RuleFor(p => p.Password).Cascade(CascadeMode.Stop).NotEmpty().WithErrorCode("Passowrd is empty!")
+                .MinimumLength(8).WithErrorCode("Length should not be less than eight characters!");
         }
     }
 }

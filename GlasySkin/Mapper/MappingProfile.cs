@@ -10,7 +10,11 @@ namespace GlasySkin.Mapper
         public MappingProfile()
         {
             CreateMap<CategoryRequestDto, Category>();
-            CreateMap<Category, CategoryResponseDto>(); 
+            CreateMap<Category, CategoryResponseDto>();
+
+            CreateMap<UserDto, User>().ReverseMap();
+
+            CreateMap<Basket, BasketDto>().ReverseMap(); 
         }
     }
 }

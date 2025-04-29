@@ -1,6 +1,6 @@
 ﻿namespace Services.ProductService
 {
-    public class CreateProductCommand
+    public record CreateProductCommand
     {
         public Guid TypeId { get; set; }
         public string Name { get; set; }

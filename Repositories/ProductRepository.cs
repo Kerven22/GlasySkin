@@ -12,29 +12,43 @@ namespace Repositories
         public ProductRepository(RepositoryContext _repositoryContext) : base(_repositoryContext) { }
 
 
-        public async Task CreateProduct(Guid categoryId, ProductRequestDto productRequestDto, bool tracakChanges)
+        public async Task<ProductResponseDto> CreateProduct(Guid categoryId, ProductRequestDto productRequestDto, bool tracakChanges)
         {
             Product product = new Product()
             {
                 CategoryId = categoryId, 
-                Name = productRequestDto.name, 
-                Cost = productRequestDto.cost, 
-                Quantity = productRequestDto.quantity, 
-                Review = productRequestDto.review
+                Name = productRequestDto.Name, 
+                Cost = productRequestDto.Cost, 
+                Quantity = productRequestDto.Quantity, 
+                Review = productRequestDto.Review
 
             };
 
-            await CreateAsync(product); 
+            await _repositoryContext.Products.AddAsync(product);
+            await _repositoryContext.SaveChangesAsync();
 
+            return await GetProduct(categoryId, product.Name);
         }
+
+
 
         public async Task<IEnumerable<ProductResponseDto>> GetAllProductsAsync(Guid categoryId, bool trackChanges)
         {
             var product = await FindByCondition(e => e.CategoryId.Equals(categoryId), trackChanges).ToListAsync();
 
-            var productDto = product.Select(p => new ProductResponseDto(p.ProductId, p.CategoryId, p.Name, p.Cost, p.Review)); 
+            var productDto = product.Select(p => new ProductResponseDto(p.CategoryId, p.Name, p.Cost, p.Review)); 
 
             return productDto; 
+        }
+
+        public async Task<ProductResponseDto> GetProduct(Guid categoryId, string name)
+        {
+            var getProduct = await  FindByCondition(p => p.CategoryId.Equals(categoryId)
+                 && p.Name.Equals(name), trackChanges:false).FirstAsync();
+
+            return  new ProductResponseDto(
+                getProduct.CategoryId, getProduct.Name, getProduct.Cost, getProduct.Review);
+;
         }
     }
 }

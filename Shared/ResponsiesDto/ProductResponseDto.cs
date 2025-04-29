@@ -1,8 +1,7 @@
 ﻿namespace Shared.ResponsiesDto
 {
     public record ProductResponseDto(
-        Guid Id,
-        Guid TypeId, 
+        Guid CategoryId, 
         string Name, 
         decimal Cost, 
         string Review);

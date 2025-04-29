@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Repositories.DataBaseContext;
 using Repository.Contract;
+using Shared.CreateDtos;
 
 namespace Repositories
 {
@@ -18,21 +19,10 @@ namespace Repositories
         }
 
         public async Task<User?> GetUserByLoginAsync(string login, bool trackChanges) =>
-            await FindByCondition(c => c.Login.Equals(login), trackChanges).SingleOrDefaultAsync(); 
+            await FindByCondition(c => c.Login.Equals(login), trackChanges).SingleOrDefaultAsync();
 
-        public async Task Register(string login, string passwordHash, string email, string phoneNumber)
-        {
-            var user = new User()
-            {
-                Login = login, 
-                PasswordHash = passwordHash, 
-                Email = email, 
-                PhoneNumber = phoneNumber
-            };
-            await CreateAsync(user); 
 
-            await _repositoryContext.SaveChangesAsync(); 
-        }
+        public async Task Register(User user) => await CreateAsync(user); 
 
         Task<string> IUserRepository.Login()
         {

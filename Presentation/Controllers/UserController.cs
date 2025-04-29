@@ -1,16 +1,15 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contract;
+using Shared.CreateDtos;
 using Shared.LogInDto;
-using Shared.ResponsiesDto;
-using Shared.ValidatorCommands;
 
 namespace Presentation.Controllers
 {
 
     [ApiController]
     [Route("api/users")]
-    public class UserController(IServiceManager _serviceManager):ControllerBase
+    public class UserController(IServiceManager _serviceManager) : ControllerBase
     {
 
         [HttpGet]
@@ -18,26 +17,27 @@ namespace Presentation.Controllers
         {
             var users = await _serviceManager.UserServiec.GetUsers(cancellationToken);
 
-            return Ok(users); 
+            return Ok(users);
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisgerUserDto regisgerUserDto)
+        public async Task<IActionResult> Register(string login, string password, string email, string phoneNumber)
         {
-            await _serviceManager.UserServiec.Register(regisgerUserDto);   
+            var userDto = new UserDto(login, password, email, phoneNumber, null); 
+            await _serviceManager.UserServiec.Register(userDto);
             return Ok();
         }
 
 
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LogInDto logInDto)
-        { 
+        {
             var token = await _serviceManager.UserServiec.Login(logInDto);
 
             var httpContext = HttpContext.Response.Cookies;
-            httpContext.Append("myCookies", token); 
+            httpContext.Append("myCookies", token);
 
-            return Ok(token); 
+            return Ok(token);
         }
 
     }
